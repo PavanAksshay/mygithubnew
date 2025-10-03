@@ -1,0 +1,33 @@
+
+name: Cache Test
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Create npm cache dir
+        run: mkdir -p ~/.npm
+
+      - name: prime-cache-9731c5d
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: cache-9731c5d
+
+      - name: Show cache result
+        run: echo "Cache result => ${{ steps.cache.outputs.cache-hit }}"
